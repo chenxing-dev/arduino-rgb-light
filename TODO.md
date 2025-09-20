@@ -1,3 +1,0 @@
-- [ ] Add a wiring diagram (use Fritzing)
-- [ ] Add a parts list
-- [ ] Add a video/GIF showing the lighting modes.

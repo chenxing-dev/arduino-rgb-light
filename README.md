@@ -12,76 +12,35 @@ An Arduino-based RGB lighting system, featuring 5 lighting modes.
   - 短按：循环切换灯光模式
   - 长按(>1秒)：开关灯
 
-## 硬件清单
+## 硬件清单 / Parts List
 
-### 必需组件
-| 组件                | 数量 | 参考价格 |
-| ------------------- | ---- | -------- |
-| Arduino Uno R3      | 1    | ¥161     |
-| WS2812B灯带60灯 5V  | 1    | ¥27      |
-| 轻触开关 12×12 四脚 | 1    | ¥0.5     |
-| 330Ω电阻            | 1    | ¥0.1     |
-
-**总成本**：约¥200
-
-## 接线图
-
-```mermaid
-graph TB
-  subgraph 电源
-    computer[Computer]
-  end
-
-  subgraph Arduino
-    computer --> arduinoUSB[Arduino USB port]
-    arduino5V[Arduino +5V]
-    arduinoGND[Arduino GND]
-    arduinoD2[Arduino D2]
-    arduinoD6[Arduino D6]
-  end
-
-  subgraph 面包板
-    arduino5V -->|红跳线| bbVCC[面包板正极区]
-    bbGND[面包板负极区] -->|白跳线| arduinoGND
-    arduinoD6 -->|绿跳线| resistor[330Ω电阻]
-  end
-  
-  subgraph 灯带
-    bbVCC --> ledVCC1[灯带5V]
-    resistor -->|蓝跳线| din[灯带DIN（绿色线）]
-    ledGND1[灯带GND] --> bbGND
-  end
-
-  subgraph 按键
-    arduinoD2 -->|黄跳线| btnPin1[按键引脚1]
-    btnPin1 -->|内部连接| btnPin2[按键引脚2]
-    btnPin2 -->|按下时导通| btnPin4[按键引脚4]
-    btnPin4 -->|内部连接| btnPin3[按键引脚3]
-    btnPin3 -->|灰跳线| bbGND
-    btnPin1[按键引脚1] -->|按下时导通| btnPin3
-  end
-
-  classDef computer fill:#f99,stroke:#333;
-  classDef arduino fill:#9cf,stroke:#333;
-  classDef bb fill:#ff9,stroke:#333;
-  classDef led fill:#9f9,stroke:#333;
-  classDef cap fill:#f9f,stroke:#333;
-  classDef btn fill:#cdf,stroke:#333;
-  
-  class computer computer;
-  class arduinoUSB,arduino5V,arduinoGND,arduinoD6,arduinoD2 arduino;
-  class bbVCC,bbGND bb;
-  class ledVCC1,ledVCC2,ledGND1,ledGND2,din,resistor led;
-  class capPos,capNeg cap;
-  class btnPin1,btnPin2,btnPin3,btnPin4 btn;
-```
+- Arduino Uno R3 (or compatible)
+- WS2812B LED strip, 60 LEDs, 5V
+- Breadboard
+- 330Ω resistor (for data line)
+- Push button (12×12, 4-pin)
+- Jumper wires (male-male)
+- USB cable (for Arduino power/programming)
+- Power supply (5V, if not powering from USB)
 
 ## 安装指南
 
 ### 1. 硬件组装
-1. 将灯带VCC/GND连接到面包板正/负极区
-2. 灯带DIN通过330Ω电阻接Arduino D6
-3. 轻触开关对角脚分别接GND和D2
+
+Below is the wiring diagram created in [Tinkercad Circuits](https://www.tinkercad.com/circuits). The NeoPixel Strip (4 LEDs) is used as a stand-in for the WS2812B LED strip. 
+
+![Wiring Diagram](wiring-diagram.png)
+
+The wiring connections are as follows:
+- Arduino 5V to Breadboard Positive Rail
+- Arduino GND to Breadboard Negative Rail
+- 330Ω resistor between Arduino D6 and the DIN of the LED strip
+- LED strip VCC to Breadboard Positive Rail
+- LED strip GND to Breadboard Negative Rail
+- One diagonal pin of the push button to Arduino D2
+- Other diagonal pin of the push button to Breadboard Negative Rail 
+
+**Note:** The difference between the NeoPixel Strip and WS2812B LED strip is the pin order. The NeoPixel Strip has DIN, 5V, GND from top to bottom, while the WS2812B LED strip has 5V, DIN, GND from top to bottom. 
 
 ### 2. 软件 Setup
 
